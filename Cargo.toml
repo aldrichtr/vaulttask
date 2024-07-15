@@ -1,0 +1,27 @@
+[package]
+authors = ["Timothy Aldrich <timothy.r.aldrich@gmail.com"]
+categories = ["command-line-utilities"]
+description = "A task management application using markdown files"
+homepage = "https://github.com/aldrichtr/vtask"
+license = "MIT"
+name = "vtask"
+repository = "https://github.com/aldrichtr/vtask"
+build = "build/main.rs"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+clap_complete = { version = "4.5.8", optional = true }
+etcetera = "0.8.0"
+glob = "0.3.1"
+serde = "1.0.204"
+serde_derive = "1.0.204"
+
+[dependencies.config]
+version = "0.14.0"
+features = ["yaml"]
+
+[dependencies.clap]
+version = "4.5.8"
+features = ["suggestions", "color", "wrap_help", "cargo", "derive"]

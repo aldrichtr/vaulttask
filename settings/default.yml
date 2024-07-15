@@ -1,0 +1,6 @@
+debug: true
+
+vaults:
+  - name: journal
+    path: ~/dendron/vaults/journal/notes
+    pattern: task.*.md

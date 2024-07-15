@@ -1,2 +1,3 @@
-# vaulttask
-Command line task management using markdown 
+# vtask
+
+Command line task management using markdown

@@ -1,37 +1,26 @@
-mod settings;
+pub mod config;
 
-use glob::glob;
+// #region imports
+use config::Config;
 
-use settings::Settings;
+// #endregion imports
+
 
 fn main() {
-
-    let _app_name = "vtask";
-
-    use etcetera::{choose_base_strategy, BaseStrategy};
-
-    let strategy = choose_base_strategy().unwrap();
-
-    let _config_dir = strategy.config_dir().join(_app_name);
-    let _data_dir = strategy.data_dir().join(_app_name);
-    let _cache_dir = strategy.cache_dir().join(_app_name);
+    // get commandline arguments
+    // pass them to the config
 
 
-    println!("Configuration directory: {:?}", _config_dir);
-    println!("Data directory: {:?}", _data_dir);
+    let config: Config = Config::new();
 
-    let settings = Settings::new().unwrap();
-    // Print out our settings (as a HashMap)
-    println!( "{:?}", settings);
+    println!( "Debug set to {:?}", config.debug);
 
+    println!("the path would be {:?}", config.vaults[0].to_glob());
 
-    let _path = String::from("c:/Users/aldrichtr/dendron/vaults/journal/notes/");
-    let _pattern = String::from("task.*.md");
-    let _target = _path + & _pattern;
-    for entry in glob(& _target).expect("Failed to read glob pattern in settings") {
+    for entry in config.vaults[0].get_files().expect("Failed to read glob pattern") {
         match entry {
-            Ok(path) => println!("{:?}", path.display()),
-            Err(e) => println!("{:?}", e),
+            Ok(path) => println!("file: {:?}", path.display()),
+            Err(e) => println!("error: {:?}", e)
         }
     }
 }

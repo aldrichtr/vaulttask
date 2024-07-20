@@ -5,8 +5,12 @@ mod command;
 mod config;
 mod task;
 
-use cli::Cli;
-use config::Config;
+
+use crate::{
+    cli::Cli,
+    config::Config,
+    task::parser::Parser
+};
 // endregion imports
 
 fn main() {
@@ -20,6 +24,7 @@ fn main() {
     //      2. Augment the config with command line arguments
     // 2. get the subcommand
     let config: Config = Config::new();
+    let mut parser = Parser::new();
 
     // region: just for debug purposes
     println!( "Debug set to {:?}", config.debug);

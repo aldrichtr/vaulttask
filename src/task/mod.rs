@@ -1,4 +1,5 @@
 // see the graymatter crate for front matter parsing
+pub mod parser;
 pub mod tag;
 
 use crate::task::tag::Tag;

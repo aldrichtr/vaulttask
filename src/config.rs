@@ -1,24 +1,19 @@
-// region Imports
-use std::{
-    path::PathBuf,
-    vec::Vec,
-    default::Default
-};
+// region: Imports
+//- std lib
+use std::{default::Default, path::PathBuf, vec::Vec};
 
+//- crates
+use confy;
 use etcetera::{choose_base_strategy, BaseStrategy};
-use serde_derive::{Deserialize, Serialize};
 use glob::{glob_with, MatchOptions, Paths, PatternError};
+use serde_derive::{Deserialize, Serialize};
 use shellexpand;
-use clap::{Parser, Subcommand};
-use confy::ConfyError;
 
-use crate::task::id::IdType;
-
+//- local
 // endregion Imports
 
 const APP_NAME: &str = "vtask";
 const CONFIG_EXT: &str = ".config";
-
 
 // region: Vault
 #[derive(Debug, Serialize, Deserialize)]
@@ -70,15 +65,15 @@ impl Vault {
 
 #[derive(Debug, Serialize, Deserialize)]
 struct TaskIdConfig {
-    type_name: IdType,
-    length: u8
+    class: String,
+    length: u8,
 }
 
 impl Default for TaskIdConfig {
     fn default() -> Self {
         Self {
-            type_name: IdType::Nanoid,
-            length: 23
+            class: String::from("nanoid"),
+            length: 23,
         }
     }
 }
@@ -91,7 +86,7 @@ pub struct TaskConfig {
 impl Default for TaskConfig {
     fn default() -> Self {
         Self {
-            id: TaskIdConfig::default()
+            id: TaskIdConfig::default(),
         }
     }
 }
@@ -105,7 +100,7 @@ pub struct Config {
     pub debug: bool,
     config_dir: PathBuf,
     pub vaults: Vec<Vault>,
-    pub task: TaskConfig
+    pub task: TaskConfig,
 }
 
 impl Default for Config {
@@ -114,8 +109,7 @@ impl Default for Config {
             debug: false,
             config_dir: Config::get_config_path(),
             vaults: Vec::<Vault>::default(),
-            task: TaskConfig::default()
-
+            task: TaskConfig::default(),
         }
     }
 }
@@ -123,23 +117,15 @@ impl Default for Config {
 impl Config {
     pub fn new() -> Self {
         let config_file = Config::get_config_path();
-        Config::load(APP_NAME, config_file.to_str()).unwrap()
-    }
-
-    pub fn load(&self, app: &str, conf: Option<&str>) -> Result<Self, ConfyError> {
-        // TODO: Need to handle errors with the format, etc
-        match confy::load(app, conf) {
-            Ok(()) => (),
-            Err(error) => match error {
-                ConfyError::BadYamlData(_) => {
-                    println!("The error was {:?}", error);
-                    ()
-                }
-                default_handler(_) => {
-                    error
-                }
+        let conf = match confy::load(APP_NAME, config_file.to_str()) {
+            Ok(cfg) => { cfg },
+            Err(err) => {
+                println!("Error loading config: {:?}", err);
+                Config::default()
             }
         };
+        println!("id is {:?}", conf.task.id.class);
+        conf
     }
 
     pub fn get_config_path() -> PathBuf {
@@ -153,12 +139,4 @@ impl Config {
 // endregion Config
 
 // region: Tests
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn hello() {
-        assert_eq!("hello", "hello");
-    }
-}
 // endregion Tests

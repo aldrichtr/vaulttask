@@ -6,6 +6,5 @@ use crate::command::vault::VaultArgs;
 
 #[derive(Debug, Subcommand)]
 pub enum Commands {
-    None,
     Vault(VaultArgs)
 }

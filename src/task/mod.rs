@@ -1,6 +1,5 @@
 // see the graymatter crate for front matter parsing
 pub mod tag;
-pub mod id;
 
 use crate::task::tag::Tag;
 use chrono::{DateTime, Local};

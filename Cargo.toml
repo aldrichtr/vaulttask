@@ -12,34 +12,24 @@ edition = "2021"
 
 
 [dependencies]
-chrono = "0.4.38"
-etcetera = "0.8.0"
-glob = "0.3.1"
 serde = "1.0.204"
 serde_derive = "1.0.204"
+# file system and paths
+etcetera = "0.8.0"
+shellexpand = { version = "3.1.0", default-features = true, features = ["full", "path"] }
+glob = "0.3.1"
+# date/time calc for tasks
+chrono = "0.4.38"
+# for task ids
 nanoid = "0.4.0"
+uuid = { version = "1.10.0", features = ["v4", "fast-rng"] }
+# markdown processing
+markdown-it = "0.6.1"
+markdown-it-tasklist = "0.2.0"
+markdown-it-front-matter = "0.3.0"
 
-[dependencies.uuid]
-version = "1.10.0"
-features = ["v4", "fast-rng"]
-
-[dependencies.shellexpand]
-version = "3.1.0"
-default-features = true
-features = ["full", "path"]
-
-[features]
-clap_complete = ["dep:clap_complete"]
-
-[dependencies.confy]
-version = "0.6.1"
-features = ["yaml_conf"]
-default-features = false
-
-[dependencies.clap]
-version = "4.5.8"
-features = ["suggestions", "color", "wrap_help", "cargo", "derive"]
-
-[dependencies.clap_complete]
-version = "4.5.8"
-optional = true
+# configuration
+confy = { version = "0.6.1", features = ["yaml_conf"], default-features = false }
+clap = { version = "4.5.8", features = ["suggestions", "color", "wrap_help", "cargo", "derive"] }
+clap_complete = { version = "4.5.8", optional = true }
+serde_yaml = "0.9.34"

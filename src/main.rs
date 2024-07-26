@@ -1,15 +1,17 @@
-#[warn(missing_docs)]
-// region imports
-mod cli;
+//! # vtask
+//!
+//! `vtask` is a command line task manager that reads data from a set of markdown files in a `vault`.
+//!
+//! Several Knowlege Management Systems use the concept of a vault to denote a collection of files and folders, such
+//! as obsidian, dendron, and others.
+//! `vtask` allows you to manage tasks in the same format (and potentially the same files) as your notes.
+
+// region: imports
 mod command;
 mod config;
-mod task;
+mod data;
 
-use markdown_it::{parser::inline::{InlineRoot, Text}, plugins::cmark::block::heading::ATXHeading};
-use markdown_it_front_matter::FrontMatter;
-use serde_yaml;
-
-use crate::{cli::Cli, config::Config, task::parser::Parser};
+use crate::{config::Config, data::parser::Parser};
 // endregion imports
 
 fn main() {
@@ -21,43 +23,31 @@ fn main() {
     //      1. Load the configuration file
     //      2. Augment the config with command line arguments
     // 2. get the subcommand
-    let config: Config = Config::new();
+
+    let config = &Config::new(None);
+    config.parse_args();
     let mut parser = Parser::new();
 
     // region: just for debug purposes
     println!("Debug set to {:?}", config.debug);
 
-    println!("the path would be {:?}", config.vaults[0].to_glob());
-
-    for entry in config.vaults[0]
-        .get_files()
-        .expect("Failed to read glob pattern")
-    {
-        match entry {
-            Ok(path) => {
-                println!("file: {:?}", path.display());
-                let ast = parser.parse(&path);
-                ast.walk(|node, _depth| {
-                    if let Some(fm) = node.cast::<FrontMatter>() {
-                        println!("The front matter content: {}", fm.content);
-                    }
-                    else if let Some(hd) = node.cast::<ATXHeading>() {
-                        println!("Children are: {:#?}", node.children);
-                        if let Some(h_title) = node.children[0].cast::<Text>() {
-                            let h_title = h_title.content.as_str();
-                            println!("This heading is level {} with title {}", hd.level, h_title);
-                        }
-                    } else {
-                        println!("This node is {:?} at depth {}", node.name(), _depth);
-                    }
-                });
-                // println!("md ast: {:?}", parser.parse(&path));
+    // This is fine for testing but it doesn't actually belong in main
+    // ? should this be the get_tasks function?
+    let vaults = &config.vaults;
+    for vault in vaults {
+        for entry in vault.get_files().expect("Failed to read glob pattern") {
+            match entry {
+                Ok(path) => {
+                    println!("file: {:?}", path.display());
+                    let task = parser.parse(&path);
+                    println!("Task is {:#?}", task);
+                }
+                Err(e) => {
+                    println!("Could not get files from vault {}", e.error())
+                }
             }
-            Err(e) => println!("error: {:?}", e),
         }
     }
     // endregion just for debug purposes
 
-    let cli = Cli::new(config);
-    cli.run();
 }

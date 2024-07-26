@@ -4,3 +4,31 @@ vaults:
   - name: journal
     path: ~/dendron/vaults/journal/notes
     pattern: task.*.md
+    case_sensitive: false
+  - name: portfolio
+    path: ~/dendron/vaults/portfolio/notes
+    pattern: *.task.*.md
+    case_sensitive: false
+task:
+  id:
+   type: nanoid
+   length: 23
+  status:
+    states:
+      todo: ' '
+      wip: '.'
+      done: 'x'
+    workflow:
+      task: [ 'todo', 'wip', 'done']
+report:
+  # - These fields roughly coincide with taskwarrior's concept of a report
+  next:
+    title: Next Action List
+    columns: [
+        'id','start.age','entry.age','depends','priority','project','tags','recur','scheduled.countdown',
+        'due.relative','until.remaining','description.count','urgency' ]
+    filter: 'status:todo, -#Waiting'
+    headings: [
+      'ID','Active','Age','Deps','P','Project','Tag','Recur','S','Due','Until','Description','Urg'
+    ]
+    sort: 'urgency-'

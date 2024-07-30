@@ -41,3 +41,6 @@ clap_complete = { version = "4.5.8", optional = true }
 swing = "0.1"
 log = "0.4"
 thiserror = "1.0.63"
+
+[dev-dependencies]
+rstest = "0.21.0"

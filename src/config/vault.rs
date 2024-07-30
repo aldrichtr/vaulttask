@@ -1,4 +1,3 @@
-
 use std::{default::Default, path::PathBuf};
 
 use glob::{glob_with, MatchOptions, Paths, PatternError};
@@ -12,21 +11,21 @@ use shellexpand;
 #[derive(Debug, Serialize, Deserialize)]
 #[allow(unused)]
 pub struct VaultConfig {
-    name: String,
-    path: PathBuf,
-    pattern: String,
-    case_sensitive: bool,
+    name : String,
+    path : PathBuf,
+    pattern : String,
+    case_sensitive : bool,
 }
 
 impl Default for VaultConfig {
     fn default() -> Self {
         Self {
-            name: String::from(""),
-            path: PathBuf::new(),
-            pattern: String::from("*.md"),
+            name : String::from(""),
+            path : PathBuf::new(),
+            pattern : String::from("*.md"),
             // TODO: How do i make this optional?
             //       Throws an error if case_sensitive is not listed in config file
-            case_sensitive: false,
+            case_sensitive : false,
         }
     }
 }
@@ -49,10 +48,10 @@ impl VaultConfig {
 
     pub fn get_files(&self) -> Result<Paths, PatternError> {
         let glob = self.to_glob();
-        let options: MatchOptions = MatchOptions {
-            case_sensitive: self.case_sensitive,
-            require_literal_leading_dot: false,
-            require_literal_separator: false,
+        let options : MatchOptions = MatchOptions {
+            case_sensitive : self.case_sensitive,
+            require_literal_leading_dot : false,
+            require_literal_separator : false,
         };
         glob_with(glob.as_ref(), options)
     }

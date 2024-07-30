@@ -1,5 +1,4 @@
-
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 // TaskConfig is the `task` key in the configuration:
 // ```yaml
@@ -10,13 +9,13 @@ use serde::{Serialize, Deserialize};
 // ```
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TaskConfig {
-    pub id: TaskIdConfig,
+    pub id : TaskIdConfig,
 }
 
 impl Default for TaskConfig {
     fn default() -> Self {
         Self {
-            id: TaskIdConfig::default(),
+            id : TaskIdConfig::default(),
         }
     }
 }
@@ -24,15 +23,15 @@ impl Default for TaskConfig {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TaskIdConfig {
     #[serde(rename = "type")]
-    pub kind: String,
-    pub length: u8,
+    pub kind : String,
+    pub length : u8,
 }
 
 impl Default for TaskIdConfig {
     fn default() -> Self {
         Self {
-            kind: String::from("nanoid"),
-            length: 23,
+            kind : String::from("nanoid"),
+            length : 23,
         }
     }
 }

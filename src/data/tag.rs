@@ -1,20 +1,18 @@
 use serde_derive::{Deserialize, Serialize};
 
-
-
-#[derive(Debug,Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Tag {
-    pub(crate) id: String,
-    pub(crate) title: String,
-    pub(crate) color: String,
+    pub id : String,
+    pub title : String,
+    pub color : String,
 }
 
 impl Tag {
     pub fn new() -> Self {
         Self {
-            id: String::from("0"),
-            title: String::from("<none>"),
-            color: String::from("#ffffff")
+            id : String::from("0"),
+            title : String::from("<none>"),
+            color : String::from("#ffffff"),
         }
     }
 }
@@ -23,6 +21,7 @@ impl Tag {
 
 mod test {
     use super::Tag;
+
     #[test]
     fn test_new() {
         let t = Tag::new();

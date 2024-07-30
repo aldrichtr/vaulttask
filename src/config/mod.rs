@@ -3,27 +3,22 @@ mod task;
 mod vault;
 
 //- std lib
-use std::{
-    default::Default,
-    path::PathBuf,
-    vec::Vec,
-};
+use std::{default::Default, path::PathBuf, vec::Vec};
 
 //- crates
 use clap::Parser;
 use etcetera::{choose_base_strategy, BaseStrategy};
 use serde_derive::{Deserialize, Serialize};
 
-
 //- local
 use crate::{
+    command::Commands,
     config::{task::TaskConfig, vault::VaultConfig},
-    command::Commands
 };
 // endregion Imports
 
-const APP_NAME: &str = "vtask";
-const CONFIG_EXT: &str = ".config.yml";
+const APP_NAME : &str = "vtask";
+const CONFIG_EXT : &str = ".config.yml";
 
 // region: Task
 
@@ -36,7 +31,7 @@ const CONFIG_EXT: &str = ".config.yml";
 #[command(about = "A task management system that uses a vault of markdown files as its data")]
 struct CommandLine {
     #[command(subcommand)]
-    command: Commands
+    command : Commands,
 }
 
 // region: Config
@@ -44,28 +39,28 @@ struct CommandLine {
 #[allow(unused)]
 pub struct Config {
     #[serde(default)]
-    pub debug: bool,
+    pub debug : bool,
     #[serde(default)]
-    pub vaults: Vec<VaultConfig>,
+    pub vaults : Vec<VaultConfig>,
     #[serde(default)]
-    pub task: TaskConfig,
+    pub task : TaskConfig,
 }
 
 impl Default for Config {
     fn default() -> Self {
         Self {
-            debug: false,
-            vaults: Vec::<VaultConfig>::default(),
-            task: TaskConfig::default(),
+            debug : false,
+            vaults : Vec::<VaultConfig>::default(),
+            task : TaskConfig::default(),
         }
     }
 }
 
 impl Config {
-    pub fn new(path: Option<PathBuf>) -> Self {
+    pub fn new(path : Option<PathBuf>) -> Self {
         let path = path.unwrap_or(Config::get_config_file());
         dbg!("loading config file {}", path.display());
-        let conf: Config = match confy::load_path(path) {
+        let conf : Config = match confy::load_path(path) {
             Ok(cfg) => cfg,
             Err(err) => {
                 panic!("Error loading config: {:?}", err);
@@ -88,7 +83,7 @@ impl Config {
     }
 
     pub fn parse_args(&self) {
-        let args: CommandLine = CommandLine::parse();
+        let args : CommandLine = CommandLine::parse();
         dbg!("Args parsed to {:#?}", args);
         // TODO: modify the config based on the commandline args
     }

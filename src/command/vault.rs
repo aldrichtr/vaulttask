@@ -5,7 +5,7 @@ use clap::{Args, Subcommand};
 #[derive(Debug, Args)]
 pub struct VaultArgs {
     #[command[subcommand]]
-    command : Option<VaultCommands>,
+    pub command : Option<VaultCommands>,
 }
 
 #[derive(Debug, Subcommand)]

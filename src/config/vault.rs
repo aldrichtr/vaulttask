@@ -7,7 +7,7 @@ use shellexpand;
 /// # Vault configuration
 ///
 /// `VaultConfig` is the `vaults:` section of the configuration
-/// and identify where `vtask` should look for files.
+/// and identify where we should look for files.
 #[derive(Debug, Serialize, Deserialize)]
 #[allow(unused)]
 pub struct VaultConfig {
@@ -23,8 +23,6 @@ impl Default for VaultConfig {
             name : String::from(""),
             path : PathBuf::new(),
             pattern : String::from("*.md"),
-            // TODO: How do i make this optional?
-            //       Throws an error if case_sensitive is not listed in config file
             case_sensitive : false,
         }
     }

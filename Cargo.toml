@@ -1,5 +1,5 @@
 [package]
-authors = ["Timothy Aldrich <timothy.r.aldrich@gmail.com"]
+authors = ["Timothy Aldrich <timothy.r.aldrich@gmail.com>"]
 categories = ["command-line-utilities"]
 description = "A task management application using markdown files"
 homepage = "https://github.com/aldrichtr/vtask"

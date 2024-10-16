@@ -12,7 +12,7 @@ use serde_derive::{Deserialize, Serialize};
 
 //- local
 use crate::{
-    command::Commands,
+    command::{Commands, vault::VaultArgs, vault::VaultCommands},
     config::{task::TaskConfig, vault::VaultConfig},
 };
 // endregion Imports
@@ -86,6 +86,22 @@ impl Config {
         let args : CommandLine = CommandLine::parse();
         dbg!("Args parsed to {:#?}", args);
         // TODO: modify the config based on the commandline args
+        match args.command {
+            Commands::Vault(vault) => {
+                let vault_cmd = vault.command.unwrap_or(VaultCommands::Add { path: (), name: (), pattern: () })
+                match vault_args {
+                    VaultCommands::Add {
+                        path,
+                        name,
+                        pattern } => {
+                        todo!("Implement adding a vaultConfig")
+                    },
+                    VaultCommands::Remove { path } => {
+                        todo!("Implement removing a vaultConfig")
+                    }
+                }
+            }
+        }
     }
 }
 
